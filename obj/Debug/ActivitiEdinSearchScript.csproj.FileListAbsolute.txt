@@ -1,6 +1,5 @@
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe.config
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.pdb
-c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.csprojResolveAssemblyReference.cache
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.exe
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.pdb
