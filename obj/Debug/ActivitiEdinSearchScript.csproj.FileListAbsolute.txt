@@ -3,3 +3,4 @@ c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\Acti
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.pdb
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.exe
 c:\users\rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.csprojResolveAssemblyReference.cache

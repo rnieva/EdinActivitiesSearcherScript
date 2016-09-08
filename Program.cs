@@ -12,42 +12,68 @@ namespace ActivitiEdinSearchScript
 {
     class Program
     {
-        static void Main(string[] args)     //other way htmlagilitypack
+        static void Main(string[] args)     // TODO: other way htmlagilitypack
         {
-            string url = "https://www.joininedinburgh.org/?q=&at=&ns="; // Any Activity type
             string url2 = "https://www.joininedinburgh.org/?q=english&at=46&ns="; // Keyword = english,
-            var client = new WebClient();
-            string webContent = client.DownloadString(url2);
-            //get WebContent
+            string url = "https://www.joininedinburgh.org/?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning"; // Keywords = english, morning
+            string webContent = "";
+            webContent = GetWebContent(url, webContent);
             // Regular Expression
-            ShowNumberOfResults(webContent);
+            Console.WriteLine(ShowNumberOfResults(webContent));
             string olContent = "";
             olContent = GetContentResultsOl(webContent, olContent);
             ArrayList listMatchesDiv = new ArrayList();
             listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
             ArrayList listLinks = new ArrayList();
-            listLinks = GetLinksMoreResuts(listMatchesDiv, listLinks);
+            listLinks = GetLinksMoreResuts(listMatchesDiv, listLinks); //TODO; look for first the number of pages
             ArrayList listItems = new ArrayList();
             listItems = GetListMatchesClear(listMatchesDiv, listItems);
-
+            int i = 0;
             if (listLinks != null)
             {
-                url2 = url2 + listLinks[1];
+                for (i=0;i<listLinks.Count-1;i++)
+                {
+                    url = url + listLinks[i];
+                    webContent = GetWebContent(url, webContent);
+                    olContent = GetContentResultsOl(webContent, olContent);
+                    listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
+                    listItems = GetListMatchesClear(listMatchesDiv, listItems);
+                }
             }
-
-            
-            Console.WriteLine();
+            // TODO: void to send by email
+            i = 0;
+            int index = 1;
+            for (i =0;i<listItems.Count-1;i++)
+            {
+                if (i == 0)
+                {
+                    Console.WriteLine((index++).ToString() + "- " + listItems[i]);
+                }
+                if (listItems[i] == "ENDITEM")
+                {
+                    Console.WriteLine((index++).ToString() + "- " + listItems[i+1]);
+                }
+            }
             Console.ReadKey();
         }
 
-        static void ShowNumberOfResults(string webContent)
+        static string GetWebContent(string url, string webContent)
         {
+            var client = new WebClient();
+            webContent = client.DownloadString(url);
+            return webContent;
+        }
+
+        static string ShowNumberOfResults(string webContent)
+        {
+            string numberOfResult = "";
             string h1Regex = "<h1[^>]*?>(?<TagText>.*?)</h1>";
             MatchCollection mc = Regex.Matches(webContent, h1Regex, RegexOptions.Singleline);
             foreach (Match m in mc)
             {
-                Console.WriteLine(m.Groups["TagText"].Value);
+                numberOfResult = (m.Groups["TagText"].Value);
             }
+            return numberOfResult;
         }
 
         static string GetContentResultsOl(string webContent, string olContent)
@@ -63,6 +89,7 @@ namespace ActivitiEdinSearchScript
 
         static ArrayList GetContentResultsDiv(string olContent, ArrayList listMatchesDiv)
         {
+            listMatchesDiv.Clear(); // We need clear this Array, Maybe there will be a next page
             String divRegex = "<div[^>]*?>(.*?)</div>"; // content within the divs
             MatchCollection mc3 = Regex.Matches(olContent, divRegex, RegexOptions.Singleline);
 
@@ -110,7 +137,7 @@ namespace ActivitiEdinSearchScript
             for (i = 0; i < listMatchesClear.Count; i++)
             {
                 string result = (Regex.Replace(listMatchesClear[i].ToString(), @"<[^>]*>", String.Empty));
-                listItems.Add(Regex.Replace(result, @"\t|\n|\r", " "));
+                listItems.Add(Regex.Replace(result, @"\t|\n|\r", ""));
             }
             return listItems;
         }
