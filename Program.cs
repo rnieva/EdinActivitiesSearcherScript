@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Collections;
+using System.Net.Mail;
+using System.Xml.Linq;
 
 namespace ActivitiEdinSearchScript
 {
@@ -15,41 +17,56 @@ namespace ActivitiEdinSearchScript
         static void Main(string[] args)     // TODO: other way htmlagilitypack
         {
             string urlHost = "https://www.joininedinburgh.org/";
-            string url3= urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year="; // Keyword = english,
-            string url = urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning"; // Keywords = english, morning
+            //string url3= urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year="; // Keyword = english,
+            //string url2 = urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning"; // Keywords = english, morning
+            //string url = urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&ns=on";
+            string url = ConfigKeys(urlHost);
+
             Console.WriteLine("KeyWords: " + GetNumberOfKeyWords(url));
-            string webContent = "";
-            webContent = GetWebContent(url, webContent);
-            // Regular Expression
-            Console.WriteLine(GetNumberOfResults(webContent));
-            string olContent = "";
-            olContent = GetContentResultsOl(webContent, olContent);
-            ArrayList listMatchesDiv = new ArrayList();
-            listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
-            List<string> listLinkResults = new List<string>();
-            listLinkResults = GetLinksResults(listMatchesDiv, listLinkResults);
-            ArrayList listLinks = new ArrayList();
-            listLinks = GetLinksMoreResults(listMatchesDiv, listLinks); 
-            ArrayList listItems = new ArrayList();
-            listItems = GetListMatchesClear(listMatchesDiv, listItems);
-            int i = 0;
-            if (listLinks != null) // If there is more pages with results (10 per page)
-            {
-                for (i=0;i<listLinks.Count-1;i++)
-                {
-                    url = urlHost + listLinks[i];
-                    webContent = GetWebContent(url, webContent);
-                    olContent = GetContentResultsOl(webContent, olContent);
-                    listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
-                    listLinkResults = GetLinksResults(listMatchesDiv, listLinkResults);
-                    listItems = GetListMatchesClear(listMatchesDiv, listItems);
-                }
-            }
-            Console.WriteLine(ShowInfo(listItems));
-           
+            StringBuilder infoTotal = SearchResults(url, urlHost);
+            Console.WriteLine(infoTotal);
+            HtmlGenerater(infoTotal);  //TODO: build a HTML page
+            sendEmail(infoTotal);
             Console.ReadKey();
-            // TODO: build a HTML page
-            // TODO: void to send by email
+        }
+
+        static string ConfigKeys(string urlHost)
+        {
+            string url = "?q=&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=";
+            string keyWord = "english";
+            Console.WriteLine("Keyword:");
+            keyWord = Console.ReadLine();
+            string acceptingStudents = "on";
+            Console.WriteLine("Accepting students(Y/N)");
+            ConsoleKeyInfo keyPressed = Console.ReadKey();
+            if ((keyPressed.KeyChar == 'Y') || (keyPressed.KeyChar == 'y'))
+            {
+                acceptingStudents = "on";
+            }
+            else
+            {
+                acceptingStudents = "";
+            }
+            Console.WriteLine("Time of day: Morning(m), Afternoon(a) or Evening(e)");
+            keyPressed = Console.ReadKey();
+            switch (keyPressed.KeyChar)
+            {
+                case 'm':
+                    url = "?q=" + keyWord + "&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning&ns="+ acceptingStudents;
+                    break;
+                case 'a':
+                    url = "?q=" + keyWord + "&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=afternoon&ns="+ acceptingStudents;
+                    break;
+                case 'e':
+                    url = "?q=" + keyWord + "&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=evening&ns=" +acceptingStudents;
+                    break;
+                default:
+                    url = "?q=" + keyWord + "&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&ns=" + acceptingStudents;
+                    break;
+            }
+            url = urlHost + url;
+            Console.WriteLine(url + "\n");
+            return url;
         }
 
         static string GetNumberOfKeyWords(string url) //search the keywords in the URL
@@ -67,6 +84,38 @@ namespace ActivitiEdinSearchScript
                 }
             }
             return keyWordsString;
+        }
+
+        static StringBuilder SearchResults(string url, string urlHost) // return a StringBuilder with final result
+        {   // Regular Expression
+            string webContent = "";
+            webContent = GetWebContent(url, webContent);
+            Console.WriteLine(GetNumberOfResults(webContent));
+            string olContent = "";
+            olContent = GetContentResultsOl(webContent, olContent);
+            ArrayList listMatchesDiv = new ArrayList();
+            listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
+            List<string> listLinkResults = new List<string>();
+            listLinkResults = GetLinksResults(listMatchesDiv, listLinkResults);
+            ArrayList listLinks = new ArrayList();
+            listLinks = GetLinksMoreResults(listMatchesDiv, listLinks);
+            ArrayList listItems = new ArrayList();
+            listItems = GetListMatchesClear(listMatchesDiv, listItems);
+            int i = 0;
+            if (listLinks != null) // If there is more pages with results (10 per page)
+            {
+                for (i = 0; i < listLinks.Count - 1; i++)
+                {
+                    url = urlHost + listLinks[i];
+                    webContent = GetWebContent(url, webContent);
+                    olContent = GetContentResultsOl(webContent, olContent);
+                    listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
+                    listLinkResults = GetLinksResults(listMatchesDiv, listLinkResults);
+                    listItems = GetListMatchesClear(listMatchesDiv, listItems);
+                }
+            }
+            StringBuilder infoTotal = PrepareInfo(listItems);
+            return infoTotal;
         }
 
         static string GetWebContent(string url, string webContent) // extract code page url
@@ -131,10 +180,16 @@ namespace ActivitiEdinSearchScript
         static ArrayList GetLinksMoreResults(ArrayList listMatchesDiv, ArrayList listLinks) // Get the links the next pages, only if there is more than 10 results
         {
             string href = "href\\s*=\\s*(?:[\"'](?<1>[^\"']*)[\"']|(?<1>\\S+))";
-            MatchCollection moreResults = Regex.Matches(listMatchesDiv[listMatchesDiv.Count - 1].ToString(), href, RegexOptions.Singleline);
-            foreach (Match m in moreResults)
+            try {
+                MatchCollection moreResults = Regex.Matches(listMatchesDiv[listMatchesDiv.Count - 1].ToString(), href, RegexOptions.Singleline);
+                foreach (Match m in moreResults)
+                {
+                    listLinks.Add(m.Groups[1].Value);
+                }
+            }
+            catch (Exception ex)
             {
-                listLinks.Add(m.Groups[1].Value);
+                System.Diagnostics.Debug.WriteLine("Error to sent email: " + ex.Message);
             }
             return listLinks;
         }
@@ -170,7 +225,7 @@ namespace ActivitiEdinSearchScript
             return listItems;
         }
 
-        static StringBuilder ShowInfo(ArrayList listItems) //Return in a StringBuilder the info
+        static StringBuilder PrepareInfo(ArrayList listItems) //Return in a StringBuilder the info
         {
             int i = 0;
             int index = 1;
@@ -193,10 +248,55 @@ namespace ActivitiEdinSearchScript
                 {
                     string temp = listItems[i + 1].ToString();
                     infoTotal.AppendLine("\t- " + listItems[i + 1].ToString().Substring(0, temp.LastIndexOf("Edinburgh") + 9));
-                    infoTotal.AppendLine();
+                    infoTotal.AppendLine ();
                 }
             }
             return infoTotal;
+        }
+
+        static void HtmlGenerater(StringBuilder infoTotal)
+        {
+            var html = new XElement("html",
+                        new XElement("head",
+                            new XElement("title", "My Page")
+                        ),
+                        new XElement("body",
+                            "this is some text"
+                        )
+                    );
+            int testBreak = 1;
+        }
+
+        static void sendEmail(StringBuilder infoTotal)
+        {
+            string emailrecipient = "roberto.nieva@gmail.com";
+            MailMessage email = new MailMessage();
+            email.To.Add(new MailAddress(emailrecipient));
+            email.From = new MailAddress("nieva_roberto@hotmail.com", "EdinSearchScript");
+            email.Subject = " Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
+            email.Body = "Results:  <br>";
+            email.Body = infoTotal.ToString();
+            email.IsBodyHtml = false; // If =true, You must to add </Br> in the body
+            email.Priority = MailPriority.Normal;
+            SmtpClient smtp = new SmtpClient();
+            smtp.Host = "smtp.live.com";
+            smtp.Port = 25;
+            smtp.EnableSsl = true;
+            smtp.UseDefaultCredentials = false;
+            smtp.Credentials = new NetworkCredential("nieva_roberto@hotmail.com", ""); // xxx, pass email
+            try
+            {
+                smtp.Send(email);
+                email.Dispose();
+                Console.WriteLine("Send complete");
+                System.Diagnostics.Debug.WriteLine("Email sent");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Fail sending Email");
+                System.Diagnostics.Debug.WriteLine("Error to sent email: " + ex.Message);
+            }
+            
         }
     }
 }
