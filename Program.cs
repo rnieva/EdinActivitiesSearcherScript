@@ -14,23 +14,21 @@ namespace ActivitiEdinSearchScript
 {
     class Program
     {
-        static void Main(string[] args)     // TODO: other way htmlagilitypack
+        static void Main(string[] args)     // TODO: other way htmlagilitypack and add DB
         {
             string urlHost = "https://www.joininedinburgh.org/";
-            //string url3= urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year="; // Keyword = english,
+            string url= urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year="; // Keyword = english,
             //string url2 = urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning"; // Keywords = english, morning
             //string url = urlHost + "?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&ns=on";
-            string url = ConfigKeys(urlHost);
-
-            Console.WriteLine("KeyWords: " + GetNumberOfKeyWords(url));
+            //string url = ConfigKeys(urlHost);  //comment this to use a direct URL
             StringBuilder infoTotal = SearchResults(url, urlHost);
             Console.WriteLine(infoTotal);
-            HtmlGenerater(infoTotal);  //TODO: build a HTML page
-            sendEmail(infoTotal);
+            HtmlGenerater(infoTotal); 
+            //sendEmail(infoTotal);
             Console.ReadKey();
         }
 
-        static string ConfigKeys(string urlHost)
+        static string ConfigKeys(string urlHost) // selected different searching criterias
         {
             string url = "?q=&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=";
             string keyWord = "english";
@@ -80,25 +78,24 @@ namespace ActivitiEdinSearchScript
                 keyWords.Add(m.Groups[3].Value);
                 if (m.Groups[2].Value != "at")
                 {
-                    keyWordsString = keyWordsString + m.Groups[3].Value + " ";
+                    keyWordsString =keyWordsString + m.Groups[3].Value + " - ";
                 }
             }
             return keyWordsString;
         }
 
         static StringBuilder SearchResults(string url, string urlHost) // return a StringBuilder with final result
-        {   // Regular Expression
+        {   // Regular Expression to get the information
             string webContent = "";
-            webContent = GetWebContent(url, webContent);
-            Console.WriteLine(GetNumberOfResults(webContent));
+            webContent = GetWebContent(url);
             string olContent = "";
-            olContent = GetContentResultsOl(webContent, olContent);
+            olContent = GetContentResultsOl(webContent);
             ArrayList listMatchesDiv = new ArrayList();
-            listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
+            listMatchesDiv = GetContentResultsDiv(olContent);
             List<string> listLinkResults = new List<string>();
             listLinkResults = GetLinksResults(listMatchesDiv, listLinkResults);
             ArrayList listLinks = new ArrayList();
-            listLinks = GetLinksMoreResults(listMatchesDiv, listLinks);
+            listLinks = GetLinksMoreResults(listMatchesDiv);
             ArrayList listItems = new ArrayList();
             listItems = GetListMatchesClear(listMatchesDiv, listItems);
             int i = 0;
@@ -107,21 +104,21 @@ namespace ActivitiEdinSearchScript
                 for (i = 0; i < listLinks.Count - 1; i++)
                 {
                     url = urlHost + listLinks[i];
-                    webContent = GetWebContent(url, webContent);
-                    olContent = GetContentResultsOl(webContent, olContent);
-                    listMatchesDiv = GetContentResultsDiv(olContent, listMatchesDiv);
+                    webContent = GetWebContent(url);
+                    olContent = GetContentResultsOl(webContent);
+                    listMatchesDiv = GetContentResultsDiv(olContent);
                     listLinkResults = GetLinksResults(listMatchesDiv, listLinkResults);
                     listItems = GetListMatchesClear(listMatchesDiv, listItems);
                 }
             }
-            StringBuilder infoTotal = PrepareInfo(listItems);
+            StringBuilder infoTotal = PrepareInfo(listItems, listLinkResults, GetNumberOfResults(webContent), url);
             return infoTotal;
         }
 
-        static string GetWebContent(string url, string webContent) // extract code page url
+        static string GetWebContent(string url) // extract code page url
         {
             var client = new WebClient();
-            webContent = client.DownloadString(url);
+            string webContent = client.DownloadString(url);
             return webContent;
         }
 
@@ -137,8 +134,9 @@ namespace ActivitiEdinSearchScript
             return numberOfResult;
         }
 
-        static string GetContentResultsOl(string webContent, string olContent)  //First filter 
+        static string GetContentResultsOl(string webContent)  //First filter 
         {
+            string olContent = "";
             String olRegex = "<ol class=\"search-results\">(?<content>.*)<div id=\"column\">"; //read from class="search-result" until id="column", the final the second ol
             MatchCollection mc2 = Regex.Matches(webContent, olRegex, RegexOptions.Singleline);
             foreach (Match m in mc2)
@@ -148,8 +146,9 @@ namespace ActivitiEdinSearchScript
             return olContent;
         }
 
-        static ArrayList GetContentResultsDiv(string olContent, ArrayList listMatchesDiv) // Second filter
+        static ArrayList GetContentResultsDiv(string olContent) // Second filter
         {
+            ArrayList listMatchesDiv = new ArrayList();
             listMatchesDiv.Clear(); // We need clear this Array, Maybe there will be a next page
             String divRegex = "<div[^>]*?>(.*?)</div>"; // content within the divs within olContent
             MatchCollection mc3 = Regex.Matches(olContent, divRegex, RegexOptions.Singleline);
@@ -173,12 +172,13 @@ namespace ActivitiEdinSearchScript
                     listLinkResults.Add("https://www.joininedinburgh.org" + m.Groups[1].Value);
                 }
             }
-            listLinkResults = listLinkResults.Distinct().ToList();
+            listLinkResults = listLinkResults.Distinct().ToList(); //delete duplicate
             return listLinkResults;
         }
 
-        static ArrayList GetLinksMoreResults(ArrayList listMatchesDiv, ArrayList listLinks) // Get the links the next pages, only if there is more than 10 results
+        static ArrayList GetLinksMoreResults(ArrayList listMatchesDiv) // Get the links the next pages, only if there is more than 10 results
         {
+            ArrayList listLinks = new ArrayList();
             string href = "href\\s*=\\s*(?:[\"'](?<1>[^\"']*)[\"']|(?<1>\\S+))";
             try {
                 MatchCollection moreResults = Regex.Matches(listMatchesDiv[listMatchesDiv.Count - 1].ToString(), href, RegexOptions.Singleline);
@@ -225,11 +225,14 @@ namespace ActivitiEdinSearchScript
             return listItems;
         }
 
-        static StringBuilder PrepareInfo(ArrayList listItems) //Return in a StringBuilder the info
+        static StringBuilder PrepareInfo(ArrayList listItems, List<string> listLinkResults, string numberTotalResults, string url) //Return in a StringBuilder the final info
         {
             int i = 0;
             int index = 1;
             StringBuilder infoTotal = new StringBuilder();
+            infoTotal.AppendLine(numberTotalResults);   //Add the number total results found
+            infoTotal.AppendLine("KeyWords: " + GetNumberOfKeyWords(url)); //Add the keywords from url
+            infoTotal.AppendLine();
             for (i = 0; i < listItems.Count - 1; i++)
             {
                 if (i == 0)
@@ -248,6 +251,7 @@ namespace ActivitiEdinSearchScript
                 {
                     string temp = listItems[i + 1].ToString();
                     infoTotal.AppendLine("\t- " + listItems[i + 1].ToString().Substring(0, temp.LastIndexOf("Edinburgh") + 9));
+                    infoTotal.AppendLine("\t- " + listLinkResults[index - 2]); // Add activity link
                     infoTotal.AppendLine ();
                 }
             }
@@ -256,15 +260,17 @@ namespace ActivitiEdinSearchScript
 
         static void HtmlGenerater(StringBuilder infoTotal)
         {
-            var html = new XElement("html",
-                        new XElement("head",
-                            new XElement("title", "My Page")
-                        ),
-                        new XElement("body",
-                            "this is some text"
-                        )
-                    );
-            int testBreak = 1;
+            List<string> lines = new List<string>();
+            lines.Add("<html>");
+            lines.Add("<body>");
+            string str = infoTotal.ToString().Replace("\n","<br>");
+            Regex r = new Regex(@"(https?://[^\s]+)");  // (https?://[^ ]+) spaces
+            str = r.Replace(str, "<a href=\"$1\">$1</a>");
+            lines.Add(str);
+            lines.Add("</body>");
+            lines.Add("</html>");
+            File.WriteAllLines("resultsFile.html", lines);
+            System.Diagnostics.Process.Start("chrome.exe", "resultsFile.html");
         }
 
         static void sendEmail(StringBuilder infoTotal)
