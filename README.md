@@ -9,6 +9,7 @@ The script uses Regex to get and clean the information.
 **Notes:**
  
 - Using System.Net.Mail and System.Text.RegularExpressions.
+- The user can select the criterian searching in the "ConfigKeys" method or directly assign a value to "url" value.
 
 **Improvements:**
 
