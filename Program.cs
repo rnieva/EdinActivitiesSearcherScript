@@ -24,7 +24,7 @@ namespace ActivitiEdinSearchScript
             StringBuilder infoTotal = SearchResults(url, urlHost);
             Console.WriteLine(infoTotal);
             HtmlGenerater(infoTotal); 
-            //sendEmail(infoTotal);
+            sendEmail(infoTotal); // Add email address and password
             Console.ReadKey();
         }
 
@@ -270,15 +270,20 @@ namespace ActivitiEdinSearchScript
             lines.Add("</body>");
             lines.Add("</html>");
             File.WriteAllLines("resultsFile.html", lines);
-            System.Diagnostics.Process.Start("chrome.exe", "resultsFile.html");
+            try {
+                System.Diagnostics.Process.Start("chrome.exe", "resultsFile.html");
+            }catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error to open Chrome: " + ex.Message);
+            }
         }
 
         static void sendEmail(StringBuilder infoTotal)
         {
-            string emailrecipient = "roberto.nieva@gmail.com";
+            string emailrecipient = "email recipient";
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(emailrecipient));
-            email.From = new MailAddress("nieva_roberto@hotmail.com", "EdinSearchScript");
+            email.From = new MailAddress("email from", "EdinSearchScript");
             email.Subject = " Info ( " + DateTime.Now.ToString("dd / MMM / yyy hh:mm:ss") + " ) ";
             email.Body = "Results:  <br>";
             email.Body = infoTotal.ToString();
@@ -289,7 +294,7 @@ namespace ActivitiEdinSearchScript
             smtp.Port = 25;
             smtp.EnableSsl = true;
             smtp.UseDefaultCredentials = false;
-            smtp.Credentials = new NetworkCredential("nieva_roberto@hotmail.com", ""); // xxx, pass email
+            smtp.Credentials = new NetworkCredential("email user", "pass"); // email and pass user
             try
             {
                 smtp.Send(email);

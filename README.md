@@ -8,10 +8,9 @@ The script uses Regex to get and clean the information.
 
 **Notes:**
  
-- Using System.Net.Mail and System.Text.RegularExpressions. 
+- Using System.Net.Mail and System.Text.RegularExpressions.
 
 **Improvements:**
 
 - Use Html Agility Pack
-
-
+- Create DB to compare results
