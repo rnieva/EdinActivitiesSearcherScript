@@ -280,6 +280,7 @@ namespace ActivitiEdinSearchScript
 
         static void sendEmail(StringBuilder infoTotal)
         {
+
             string emailrecipient = "email recipient";
             MailMessage email = new MailMessage();
             email.To.Add(new MailAddress(emailrecipient));
