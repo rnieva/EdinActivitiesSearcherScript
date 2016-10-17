@@ -12,7 +12,7 @@ using System.Xml.Linq;
 
 namespace ActivitiEdinSearchScript
 {
-    class Program
+    public class Program
     {
         //coment2
         static void Main(string[] args)     // TODO: other way htmlagilitypack and add DB
@@ -68,7 +68,7 @@ namespace ActivitiEdinSearchScript
             return url;
         }
 
-        static string GetNumberOfKeyWords(string url) //search the keywords in the URL
+       public static string GetNumberOfKeyWords(string url) //search the keywords in the URL
         {
             string keyWordsString = "";
             ArrayList keyWords = new ArrayList();
