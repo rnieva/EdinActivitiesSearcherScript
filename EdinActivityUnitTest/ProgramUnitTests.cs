@@ -37,6 +37,20 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
+        public void givenUrlWithTwoAparameter_thenReturnAStringWithTwoParameterNextToDash()
+        {
+            //Arrange
+            string url = "https://www.joininedinburgh.org/?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning";
+
+            //Act
+            string result = Program.GetNumberOfKeyWords(url);
+
+            //Assert--
+            string expected = "english - morning - ";
+            Assert.AreEqual(expected, result);
+        }
+
+        [TestMethod]
         public void givenDifferentUrlWithAparameter_thenReturnAStringWithTheParameterNextToDash()
         {
             //Arrange
