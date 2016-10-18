@@ -4,10 +4,10 @@ using ActivitiEdinSearchScript;
 
 
 namespace EdinActivityUnitTest
-{
+{   
     [TestClass]
     public class ProgramUnitTests
-    {
+    {   //s4
         [TestMethod]
         public void givenUrlWithoutParameters_thenReturnAnEmptyString()
         {
