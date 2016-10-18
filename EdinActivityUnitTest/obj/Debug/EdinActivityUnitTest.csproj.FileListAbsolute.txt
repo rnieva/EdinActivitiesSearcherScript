@@ -1,0 +1,8 @@
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\bin\Debug\EdinActivityUnitTest.dll
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\bin\Debug\EdinActivityUnitTest.pdb
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\bin\Debug\ActivitiEdinSearchScript.exe
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\bin\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.csprojResolveAssemblyReference.cache
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.dll
+C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.pdb
