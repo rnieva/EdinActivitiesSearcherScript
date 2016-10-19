@@ -4,7 +4,7 @@ using ActivitiEdinSearchScript;
 
 
 namespace EdinActivityUnitTest
-{   //s3
+{   
     [TestClass]
     public class ProgramUnitTests
     {
