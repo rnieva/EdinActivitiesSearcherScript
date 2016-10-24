@@ -8,6 +8,7 @@ namespace EdinActivityUnitTest
     [TestClass]
     public class ProgramUnitTests
     {
+        //comment
         [TestMethod]
         public void givenUrlWithoutParameters_thenReturnAnEmptyString()
         {
