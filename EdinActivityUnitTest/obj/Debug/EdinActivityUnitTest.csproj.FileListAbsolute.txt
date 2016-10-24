@@ -6,3 +6,11 @@ C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\Edin
 C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.csprojResolveAssemblyReference.cache
 C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.dll
 C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.pdb
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\bin\Debug\EdinActivityUnitTest.dll
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\bin\Debug\EdinActivityUnitTest.pdb
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\bin\Debug\ActivitiEdinSearchScript.exe
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\bin\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.csprojResolveAssemblyReference.cache
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.dll
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\EdinActivityUnitTest\obj\Debug\EdinActivityUnitTest.pdb

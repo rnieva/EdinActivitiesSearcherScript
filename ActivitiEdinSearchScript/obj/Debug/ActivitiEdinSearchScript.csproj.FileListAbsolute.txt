@@ -7,3 +7,6 @@ C:\Users\Rob\documents\visual studio 2015\Projects\ActivitiEdinSearchScript\Acti
 C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe.config
 C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.exe
 C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.csprojResolveAssemblyReference.cache

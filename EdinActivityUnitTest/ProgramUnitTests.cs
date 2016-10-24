@@ -8,9 +8,8 @@ namespace EdinActivityUnitTest
     [TestClass]
     public class ProgramUnitTests
     {
-        //comment
         [TestMethod]
-        public void givenUrlWithoutParameters_thenReturnAnEmptyString()
+        public void GetNumberOfKeyWords_givenUrlWithoutParameters_thenReturnAnEmptyString()
         {
             //Arrange
             string url = "https://www.joininedinburgh.org/";
@@ -24,7 +23,7 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
-        public void givenUrlWithOnlyOneParameter_thenReturnAStringWithTheParameter()
+        public void GetNumberOfKeyWords_givenUrlWithOnlyOneParameter_thenReturnAStringWithTheParameter()
         {
             //Arrange
             string url = "https://www.joininedinburgh.org/?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=";
@@ -38,7 +37,7 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
-        public void givenUrlWithTwoAparameter_thenReturnAStringWithTwoParameterNextToDash()
+        public void GetNumberOfKeyWords_givenUrlWithTwoAparameter_thenReturnAStringWithTwoParameterNextToDash()
         {
             //Arrange
             string url = "https://www.joininedinburgh.org/?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning";
@@ -52,7 +51,7 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
-        public void givenDifferentUrlWithAparameter_thenReturnAStringWithTheParameterNextToDash()
+        public void GetNumberOfKeyWords_givenDifferentUrlWithAparameter_thenReturnAStringWithTheParameterNextToDash()
         {
             //Arrange
             string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
@@ -64,7 +63,43 @@ namespace EdinActivityUnitTest
             string expected = "ssl#q=guion+en+ingles - ";
             Assert.AreEqual(expected, result);
         }
-        //Duda: En vez de hacer diferentes UT para diferentes URLs, probar todas las URLs en el mismo UT con diferentes Asserts
 
+        [TestMethod]
+        public void GetWebContent_givenAnUrl_then_getUrlContent()
+        {
+            //Arrange
+            string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
+
+            //Act
+            string result = Program.GetWebContent(url);
+
+            //Assert
+            Assert.AreNotEqual(null, result);
+        }
+
+        [TestMethod]
+        //[ExpectedException(typeof(Exception))]
+        public void GetWebContent_givenInvalidUrl_then_ThrowException()
+        {
+        //    Arrange
+        //    string url = "https://ww.gole.es/?gws_rd=ssl#q=gn+ingles";
+
+        //    Act
+        //    string result = Program.GetWebContent(url);
+
+        //    Assert
+
+        //    try
+        //    {
+        //        string result = Program.GetWebContent(url);
+        //        Assert.Fail("An exception should have been thrown");
+        //    }
+        //    catch (Exception ae)
+        //    {
+        //        Assert.AreEqual("Unable to connect to the remote server", ae.Message);
+        //    }
+
+
+        }
     }
 }

@@ -115,10 +115,18 @@ namespace ActivitiEdinSearchScript
             return infoTotal;
         }
 
-        static string GetWebContent(string url) // extract code page url
+        public static string GetWebContent(string url) // extract code page url
         {
             var client = new WebClient();
-            string webContent = client.DownloadString(url);
+            string webContent = "";
+            try
+            {
+                 webContent = client.DownloadString(url);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error to get webContent: " + ex.Message);
+            }
             return webContent;
         }
 
