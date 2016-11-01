@@ -78,39 +78,41 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
+        //[ExpectedException(typeof(ArgumentException), "No es posible conectar con el servidor remoto")]
         //[ExpectedException(typeof(ArgumentException),"Unable to connect to the remote server")]
+        [ExpectedException(typeof(ArgumentException))]
+        //[ExpectedException(typeof(System.FormatException), "No es posible conectar con el servidor remoto")]
+        //[ExpectedException(typeof(ArgumentException), ExpectedMessage = "No es posible conectar con el servidor remoto")]
         public void GetWebContent_givenInvalidUrl_then_ThrowException()
         {
             //Arrange
-            //string url = "https://ww.gole.es/?gws_rd=ssl#q=gn+ingles";
-            string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
-            Exception expectedExcetpion = null;
+            string url = "https://ww.gole.es/?gws_rd=ssl#q=gn+ingles";
+            //string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
 
-            // Act
+            //// Act
             //string result = Program.GetWebContent(url);
-
-            //Assert
+            ////Assert
 
             //try
             //{
-            //string result = Program.GetWebContent(url);
-            //Assert.Fail("An exception should have been thrown");
+            //    // This line should throw an exception
+            //    string result = Program.GetWebContent(url);
+            //    //Assert.Fail("No es posible conectar con el servidor remoto");
             //}
-            //catch (AssertionException ae)
+            //catch (Exception ex)
             //{
-            //Assert.AreEqual("Unable to connect to the remote server", ae.Message);
+            //    Assert.IsInstanceOfType(typeof(ArgumentException), ex);
             //}
-            // Act
-            try
-            {
-                string result = Program.GetWebContent(url);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail("Expected no exception, but got: " + ex.Message);
-            }
-
+                        try
+                           {
+                                 string result = Program.GetWebContent(url);
+                            }
+                      catch
+                             {                                                Assert.Fail();
+             
+                            }
         }
+
         [TestMethod]
         public void GetNumberOfResults_given_theUrl_then_return_stringWithAnumberOfResults()
         {
