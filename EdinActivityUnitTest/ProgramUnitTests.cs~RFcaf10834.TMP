@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ActivitiEdinSearchScript;
-using System.Net.Http;
+
 
 namespace EdinActivityUnitTest
 {   
@@ -78,34 +78,40 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(Exception),"Unable to connect to the remote server")]
+        //[ExpectedException(typeof(ArgumentException), "No es posible conectar con el servidor remoto")]
+        //[ExpectedException(typeof(ArgumentException),"Unable to connect to the remote server")]
+        [ExpectedException(typeof(ArgumentException))]
+        //[ExpectedException(typeof(System.FormatException), "No es posible conectar con el servidor remoto")]
+        //[ExpectedException(typeof(ArgumentException), ExpectedMessage = "No es posible conectar con el servidor remoto")]
         public void GetWebContent_givenInvalidUrl_then_ThrowException()
         {
             //Arrange
             string url = "https://ww.gole.es/?gws_rd=ssl#q=gn+ingles";
-            
-            // Act
-            string result = Program.GetWebContent(url);
+            //string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
 
+            //// Act
+            //string result = Program.GetWebContent(url);
+            ////Assert
+
+            //try
+            //{
+            //    // This line should throw an exception
+            //    string result = Program.GetWebContent(url);
+            //    //Assert.Fail("No es posible conectar con el servidor remoto");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Assert.IsInstanceOfType(typeof(ArgumentException), ex);
+            //}
+                        try
+                           {
+                                 string result = Program.GetWebContent(url);
+                            }
+                      catch
+                             {                                                Assert.Fail();
+             
+                            }
         }
-
-        [TestMethod]
-        public void GetWebContent_givenValidUrl_then_doesntThrowException()
-        {
-            //Arrange
-            string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
-
-            // Act
-            try
-            {
-                string result = Program.GetWebContent(url);
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail("Expected no exception, but got: " + ex.Message);
-            }
-        }
-
 
         [TestMethod]
         public void GetNumberOfResults_given_theUrl_then_return_stringWithAnumberOfResults()

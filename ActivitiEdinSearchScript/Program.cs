@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Collections;
+using System.Net.Http;
 using System.Net.Mail;
 using System.Xml.Linq;
 
@@ -125,7 +126,8 @@ namespace ActivitiEdinSearchScript
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error to get webContent: " + ex.Message);
+                 throw new Exception(ex.Message);
+                 //System.Diagnostics.Debug.WriteLine("Error to get webContent: " + ex.Message);
             }
             return webContent;
         }

@@ -10,3 +10,9 @@ C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScri
 C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe
 C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.pdb
 C:\Users\Javier\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.csprojResolveAssemblyReference.cache
+C:\Users\javiergarcia\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe.config
+C:\Users\javiergarcia\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.exe
+C:\Users\javiergarcia\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\javiergarcia\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.exe
+C:\Users\javiergarcia\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\bin\Debug\ActivitiEdinSearchScript.pdb
+C:\Users\javiergarcia\Source\Repos\EdinActivitiesSearcherScript\ActivitiEdinSearchScript\obj\Debug\ActivitiEdinSearchScript.csprojResolveAssemblyReference.cache
