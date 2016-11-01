@@ -121,7 +121,7 @@ namespace ActivitiEdinSearchScript
             string webContent = "";
             try
             {
-                 webContent = client.DownloadString(url);
+                webContent = client.DownloadString(url);
             }
             catch (Exception ex)
             {
@@ -130,7 +130,7 @@ namespace ActivitiEdinSearchScript
             return webContent;
         }
 
-        static string GetNumberOfResults(string webContent) // find the number of results
+        public static string GetNumberOfResults(string webContent) // find the number of results
         {
             string numberOfResult = "";
             string h1Regex = "<h1[^>]*?>(?<TagText>.*?)</h1>";

@@ -78,28 +78,67 @@ namespace EdinActivityUnitTest
         }
 
         [TestMethod]
-        //[ExpectedException(typeof(Exception))]
+        //[ExpectedException(typeof(ArgumentException),"Unable to connect to the remote server")]
         public void GetWebContent_givenInvalidUrl_then_ThrowException()
         {
-        //    Arrange
-        //    string url = "https://ww.gole.es/?gws_rd=ssl#q=gn+ingles";
+            //Arrange
+            //string url = "https://ww.gole.es/?gws_rd=ssl#q=gn+ingles";
+            string url = "https://www.google.es/?gws_rd=ssl#q=guion+en+ingles";
+            Exception expectedExcetpion = null;
 
-        //    Act
-        //    string result = Program.GetWebContent(url);
+            // Act
+            //string result = Program.GetWebContent(url);
 
-        //    Assert
+            //Assert
 
-        //    try
-        //    {
-        //        string result = Program.GetWebContent(url);
-        //        Assert.Fail("An exception should have been thrown");
-        //    }
-        //    catch (Exception ae)
-        //    {
-        //        Assert.AreEqual("Unable to connect to the remote server", ae.Message);
-        //    }
+            //try
+            //{
+            //string result = Program.GetWebContent(url);
+            //Assert.Fail("An exception should have been thrown");
+            //}
+            //catch (AssertionException ae)
+            //{
+            //Assert.AreEqual("Unable to connect to the remote server", ae.Message);
+            //}
+            // Act
+            try
+            {
+                string result = Program.GetWebContent(url);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail("Expected no exception, but got: " + ex.Message);
+            }
+
+        }
+        [TestMethod]
+        public void GetNumberOfResults_given_theUrl_then_return_stringWithAnumberOfResults()
+        {
+            //Arrange
+            string url = "https://www.joininedinburgh.org/?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning";
+
+            //Act
+            string webContent = Program.GetWebContent(url);
+            string  numberResults = Program.GetNumberOfResults(webContent);
+            bool result = numberResults.Contains("Found");
+            
+            //Assert
+            Assert.AreEqual(true, result);
+        }
+
+        [TestMethod]
+        public void GetNumberOfResults_given_InvalidUrl_then_return_emptyString()
+        {
+            //Arrange
+            string url = "https://www.joininburgh.org/?q=english&at=46&a=&distance=&pc=&location=&ds_month_year=&de_month_year=&t=morning";
+
+            //Act
+            string webContent = Program.GetWebContent(url);
+            string numberResults = Program.GetNumberOfResults(webContent);
 
 
+            //Assert
+            Assert.AreEqual("", numberResults);
         }
     }
 }
